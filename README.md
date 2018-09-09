@@ -1,6 +1,5 @@
-# GKE Info 
-
-| Test          |   Result      |
-| ------------- |---------------|
-| Tutorial      | ![badge](https://concourse.dev.vicnastea.io/api/v1/teams/main/pipelines/gke-info-post-submit/jobs/test-tutorial/badge) |
-| Build App     | ![badge](https://concourse.dev.vicnastea.io/api/v1/teams/main/pipelines/gke-info-post-submit/jobs/build-gke-info/badge)|
+# Continuous Delivery with Spinnaker and Kubernetes
+The sample application comprises of a backend and a frontend component. As soon as a backend is
+available, the frontend component will start serving at port 8080 with the information of frontend
+and backend components. An example web response of the application deployed on Kubernetes can be
+seen at: ![N|Solid](https://i.imgur.com/SiMCwVt.png)
