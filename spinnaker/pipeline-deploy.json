@@ -1,6 +1,6 @@
 {
-  "name": "Deploy",
-  "application": "sample",
+  "name": "CD Pipeline",
+  "application": "Continuous-Integration-Deployment",
   "appConfig": {},
   "executionEngine": "v2",
   "keepWaitingPipelines": true,
@@ -13,7 +13,7 @@
       "clusters": [
         {
           "account": "local",
-          "application": "sample",
+          "application": "Continuous-Integration-Deployment",
           "cloudProvider": "kubernetes",
           "containers": [
             {
@@ -34,20 +34,20 @@
                 }
               ],
               "imageDescription": {
-                "account": "gcr",
+                "account": "dockerhub",
                 "fromTrigger": true,
-                "imageId": "gcr.io/PROJECT/sample-app:v.*",
-                "registry": "gcr.io",
-                "repository": "PROJECT/sample-app",
+                "imageId": "junaidali/sample-app:v.*",
+                "registry": "index.docker.io",
+                "repository": "junaidali/sample-app",
                 "tag": "v.*"
               },
               "imagePullPolicy": "ALWAYS",
               "limits": {
-                "cpu": null,
-                "memory": null
+                "cpu": "200m",
+                "memory": "512Mi"
               },
               "livenessProbe": null,
-              "name": "PROJECT-sample-app",
+              "name": "junaidali-sample-app",
               "ports": [
                 {
                   "containerPort": 8080,
@@ -59,8 +59,8 @@
               ],
               "readinessProbe": null,
               "requests": {
-                "cpu": null,
-                "memory": null
+                "cpu": "100m",
+                "memory": "128Mi"
               },
               "volumeMounts": []
             }
@@ -91,7 +91,7 @@
             "sample-frontend-canary",
             "sample-frontend-prod"
           ],
-          "namespace": "default",
+          "namespace": "ci-cd",
           "nodeSelector": {},
           "podAnnotations": {},
           "provider": "kubernetes",
@@ -122,7 +122,7 @@
       "clusters": [
         {
           "account": "local",
-          "application": "sample",
+          "application": "Continuous-Integration-Deployment",
           "cloudProvider": "kubernetes",
           "containers": [
             {
@@ -139,20 +139,20 @@
                 }
               ],
               "imageDescription": {
-                "account": "gcr",
+                "account": "dockerhub",
                 "fromTrigger": true,
-                "imageId": "gcr.io/PROJECT/sample-app:v.*",
-                "registry": "gcr.io",
-                "repository": "PROJECT/sample-app",
+                "imageId": "gcr.io/junaidali/sample-app:v.*",
+                "registry": "index.docker.io",
+                "repository": "junaidali/sample-app",
                 "tag": "v.*"
               },
               "imagePullPolicy": "ALWAYS",
               "limits": {
-                "cpu": null,
-                "memory": null
+                "cpu": "200m",
+                "memory": "512Mi"
               },
               "livenessProbe": null,
-              "name": "PROJECT-sample-app",
+              "name": "junaidali-sample-app",
               "ports": [
                 {
                   "containerPort": 8080,
@@ -164,8 +164,8 @@
               ],
               "readinessProbe": null,
               "requests": {
-                "cpu": null,
-                "memory": null
+                "cpu": "100m",
+                "memory": "128Mi"
               },
               "volumeMounts": []
             }
@@ -195,7 +195,7 @@
           "loadBalancers": [
             "sample-backend-canary"
           ],
-          "namespace": "default",
+          "namespace": "ci-cd",
           "nodeSelector": {},
           "podAnnotations": {},
           "provider": "kubernetes",
@@ -223,7 +223,7 @@
     },
     {
       "account": "local",
-      "application": "sample",
+      "application": "Continuous-Integration-Deployment",
       "cloudProvider": "kubernetes",
       "cloudProviderType": "kubernetes",
       "container": {
@@ -234,11 +234,11 @@
         ],
         "envVars": [],
         "imageDescription": {
-          "account": "gcr",
+          "account": "dockerhub",
           "fromTrigger": true,
-          "organization": "PROJECT",
-          "registry": "gcr.io",
-          "repository": "PROJECT/sample-app",
+          "organization": "junaidali",
+          "registry": "index.docker.io",
+          "repository": "junaidali/sample-app",
           "tag": "v.*"
         },
         "name": "1494826281215",
@@ -246,7 +246,7 @@
       },
       "credentials": "local",
       "name": "BE Integration Tests",
-      "namespace": "default",
+      "namespace": "ci-cd",
       "refId": "7",
       "requisiteStageRefIds": [
         "3"
@@ -257,7 +257,7 @@
     {
       "account": "local",
       "annotations": {},
-      "application": "sample",
+      "application": "Continuous-Integration-Deployment",
       "cloudProvider": "kubernetes",
       "cloudProviderType": "kubernetes",
       "container": {
@@ -268,11 +268,11 @@
         ],
         "envVars": [],
         "imageDescription": {
-          "account": "gcr",
+          "account": "dockerhub",
           "fromTrigger": true,
-          "organization": "PROJECT",
-          "registry": "gcr.io",
-          "repository": "PROJECT/sample-app",
+          "organization": "junaidali",
+          "registry": "index.docker.io",
+          "repository": "junaidali/sample-app",
           "tag": "v.*"
         },
         "name": "1494826281215",
@@ -281,7 +281,7 @@
       "credentials": "local",
       "labels": {},
       "name": "FE Integration Tests",
-      "namespace": "default",
+      "namespace": "ci-cd",
       "refId": "8",
       "requisiteStageRefIds": [
         "2"
@@ -306,7 +306,7 @@
       "clusters": [
         {
           "account": "local",
-          "application": "sample",
+          "application": "Continuous-Integration-Deployment",
           "cloudProvider": "kubernetes",
           "containers": [
             {
@@ -325,18 +325,18 @@
                 }
               ],
               "imageDescription": {
-                "account": "gcr",
+                "account": "dockerhub",
                 "fromTrigger": true,
-                "imageId": "gcr.io/PROJECT/sample-app:v.*",
-                "registry": "gcr.io",
-                "repository": "PROJECT/sample-app",
+                "imageId": "gcr.io/junaidali/sample-app:v.*",
+                "registry": "index.docker.io",
+                "repository": "junaidali/sample-app",
                 "tag": "v.*"
               },
               "imagePullPolicy": "ALWAYS",
               "lifecycle": null,
               "limits": null,
               "livenessProbe": null,
-              "name": "PROJECT-sample-app",
+              "name": "junaidali-sample-app",
               "ports": [
                 {
                   "containerPort": 80,
@@ -377,7 +377,7 @@
           "loadBalancers": [
             "sample-backend-prod"
           ],
-          "namespace": "default",
+          "namespace": "ci-cd",
           "nodeSelector": {},
           "podAnnotations": {},
           "provider": "kubernetes",
@@ -409,7 +409,7 @@
       "clusters": [
         {
           "account": "local",
-          "application": "sample",
+          "application": "Continuous-Integration-Deployment",
           "cloudProvider": "kubernetes",
           "containers": [
             {
@@ -432,18 +432,18 @@
                 }
               ],
               "imageDescription": {
-                "account": "gcr",
+                "account": "dockerhub",
                 "fromTrigger": true,
-                "imageId": "gcr.io/PROJECT/sample-app:v.*",
-                "registry": "gcr.io",
-                "repository": "PROJECT/sample-app",
+                "imageId": "gcr.io/junaidali/sample-app:v.*",
+                "registry": "index.docker.io",
+                "repository": "junaidali/sample-app",
                 "tag": "v.*"
               },
               "imagePullPolicy": "ALWAYS",
               "lifecycle": null,
               "limits": null,
               "livenessProbe": null,
-              "name": "PROJECT-sample-app",
+              "name": "junaidali-sample-app",
               "ports": [
                 {
                   "containerPort": 80,
@@ -484,7 +484,7 @@
           "loadBalancers": [
             "sample-frontend-prod"
           ],
-          "namespace": "default",
+          "namespace": "ci-cd",
           "nodeSelector": {},
           "podAnnotations": {},
           "provider": "kubernetes",
@@ -516,19 +516,17 @@
   ],
   "triggers": [
     {
-      "account": "gcr",
+      "account": "dockerhub",
       "application": "gceme",
       "enabled": true,
-      "organization": "PROJECT",
-      "pipeline": "61372c70-62af-422f-9565-e1975a758612",
-      "registry": "gcr.io",
-      "repository": "PROJECT/sample-app",
+      "organization": "junaidali",
+      "registry": "index.docker.io",
+      "repository": "junaidali/sample-app",
       "status": [
         "successful"
       ],
       "tag": "v.*",
       "type": "docker"
     }
-  ],
-  "updateTs": "1500322920670"
+  ]
 }

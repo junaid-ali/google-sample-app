@@ -1,5 +1,5 @@
 {
-	"name": "sample",
+	"name": "Continuous-Integration-Deployment",
 	"description": null,
 	"email": "sample-app-demo@example.com",
 	"cloudProviders": "kubernetes"
