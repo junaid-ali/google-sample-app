@@ -1,0 +1,59 @@
+def label = "worker-${UUID.randomUUID().toString()}"
+
+podTemplate(
+    label: label, containers: [
+        containerTemplate(name: 'image-builder', image: 'docker:dind', ttyEnabled: true, alwaysPullImage: true, privileged: true),
+        containerTemplate(name: 'docker-daemon', image: 'docker', ttyEnabled: true, alwaysPullImage: true, envVars: [containerEnvVar(key: 'DOCKER_HOST', value: 'tcp://localhost:2375')])
+    ],
+    volumes: [emptyDirVolume(memory: false, mountPath: '/var/lib/docker')]
+    ) {
+    node(label) {
+        stage('Clone Repo') {
+            container('image-builder') {
+                checkout([$class: 'GitSCM',
+                    branches: [[name: '$BRANCH']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[url: '$REPOSITORY_URL']]]
+                    )
+                }
+            }
+
+        stage('Build Docker image') {
+            container('image-builder') {
+                sh """
+                    docker build -f ./docker/Dockerfile -t sample-app ./docker/
+                """
+            }
+        }
+
+        stage('Test App') {
+            container('image-builder') {
+                sh """
+                    apk update && apk add curl
+                    docker run --rm --name backend-app -d -e COMPONENT=backend -e VERSION=latest sample-app
+                BACKEND_URL=\$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' backend-app)
+                docker run --rm --name frontend-app -d --expose 8080 -p 8080 -e COMPONENT=frontend -e VERSION=latest -e BACKEND_URL=http://\${BACKEND_URL}:8080/metadata sample-app
+                sleep 10
+                HOST_CONTAINER_PORT=\$(docker inspect -f '{{ (index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort }}' frontend-app)
+
+                CODE=\$(timeout -t 10 curl -IXGET -so /dev/null -w "%{http_code}" localhost:\${HOST_CONTAINER_PORT})
+
+                if [[ \${CODE} -eq "200" ]]; then
+                    echo -e "                      ****************************
+                          Image is ready to be pushed!
+                          ****************************"
+                else
+                    echo "Connection to container port failed, image is not ready!"
+                    docker rm -f backend-app frontend-app || true
+                    docker ps -a
+                    exit 1
+                fi
+                docker rm -f backend-app frontend-app || true
+                docker ps -a
+                """
+            }
+        }
+    }
+}

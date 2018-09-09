@@ -1,0 +1,51 @@
+def label = "worker-${UUID.randomUUID().toString()}"
+
+podTemplate(
+    label: label, containers: [
+        containerTemplate(name: 'image-builder', image: 'docker:dind', ttyEnabled: true, alwaysPullImage: true, privileged: true),
+        containerTemplate(name: 'docker-daemon', image: 'docker', ttyEnabled: true, alwaysPullImage: true, envVars: [containerEnvVar(key: 'DOCKER_HOST', value: 'tcp://localhost:2375')])
+    ],
+    volumes: [emptyDirVolume(memory: false, mountPath: '/var/lib/docker')]
+    ) {
+    node(label) {
+        stage('Clone Repo') {
+            withCredentials([usernamePassword(credentialsId: 'junaid-docker-hub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')])
+            {
+                container('image-builder') {
+                    checkout([$class: 'GitSCM',
+                    branches: [[name: '$BRANCH']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[url: '$REPOSITORY_URL']]]
+                    )
+                }
+            }
+        }
+
+        stage('Build docker image') {
+            container('image-builder') {
+                sh """
+                    docker build -f ./docker/Dockerfile -t sample-app ./docker/
+                """
+            }
+        }
+
+        stage('Push docker image') {
+            withCredentials([usernamePassword(credentialsId: 'junaid-docker-hub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')])
+            {
+                withEnv(["BUILD_NUMBER=$BUILD_NUMBER"]) {
+                    container('image-builder') {
+                    sh '''
+                        docker login -u ${USERNAME} -p \"${PASSWORD}\"
+                        docker tag sample-app:latest $USERNAME/sample-app:build-$BUILD_NUMBER
+                        docker push $USERNAME/sample-app
+                        docker rmi sample-app || true
+                        docker images
+                    '''
+                    }
+                }
+            }
+        }
+    }
+}
