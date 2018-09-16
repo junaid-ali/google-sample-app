@@ -1,0 +1,9 @@
+[
+  {
+    "name": "demo",
+    "description": null,
+    "email": "app-demo-clover@opnfv.ons",
+    "lastModifiedBy": "anonymous",
+    "cloudProviders": "kubernetes"
+  }
+]
