@@ -99,10 +99,10 @@
                 "imageDescription": {
                   "account": "mydockerhub",
                   "fromTrigger": true,
-                  "imageId": "junaidali/sample-app:build-*",
+                  "imageId": "junaidali/sample-app:build.*",
                   "registry": "index.docker.io",
                   "repository": "junaidali/sample-app",
-                  "tag": "build-*"
+                  "tag": "build.*"
                 },
                 "imagePullPolicy": "ALWAYS",
                 "limits": {
@@ -144,10 +144,9 @@
               "KubernetesPod"
             ],
             "loadBalancers": [
-              "sample-frontend-canary",
-              "sample-frontend-prod"
+              "sample-frontend-canary"
             ],
-            "namespace": "ci-cd",
+            "namespace": "canary",
             "nodeSelector": {},
             "podAnnotations": {},
             "provider": "kubernetes",
@@ -194,10 +193,10 @@
                 "imageDescription": {
                   "account": "mydockerhub",
                   "fromTrigger": true,
-                  "imageId": "junaidali/sample-app:build-*",
+                  "imageId": "junaidali/sample-app:build.*",
                   "registry": "index.docker.io",
                   "repository": "junaidali/sample-app",
-                  "tag": "build-*"
+                  "tag": "build.*"
                 },
                 "imagePullPolicy": "ALWAYS",
                 "limits": {
@@ -241,7 +240,7 @@
             "loadBalancers": [
               "sample-backend-canary"
             ],
-            "namespace": "ci-cd",
+            "namespace": "canary",
             "nodeSelector": {},
             "podAnnotations": {},
             "provider": "kubernetes",
@@ -279,16 +278,16 @@
           "imageDescription": {
             "account": "mydockerhub",
             "fromTrigger": true,
-            "imageId": "index.docker.io/junaidali/sample-app:build-*",
+            "imageId": "index.docker.io/junaidali/sample-app:build.*",
             "registry": "index.docker.io",
             "repository": "junaidali/sample-app",
-            "tag": "build-*"
+            "tag": "build.*"
           },
           "name": "1494826281215",
           "volumeMounts": []
         },
         "name": "BE Integration Tests",
-        "namespace": "ci-cd",
+        "namespace": "canary",
         "refId": "7",
         "requisiteStageRefIds": [
           "3"
@@ -311,16 +310,16 @@
           "imageDescription": {
             "account": "mydockerhub",
             "fromTrigger": true,
-            "imageId": "index.docker.io/junaidali/sample-app:build-*",
+            "imageId": "index.docker.io/junaidali/sample-app:build.*",
             "registry": "index.docker.io",
             "repository": "junaidali/sample-app",
-            "tag": "build-*"
+            "tag": "build.*"
           },
           "name": "1494826281215",
           "volumeMounts": []
         },
         "name": "FE Integration Tests",
-        "namespace": "ci-cd",
+        "namespace": "canary",
         "refId": "8",
         "requisiteStageRefIds": [
           "2"
@@ -363,10 +362,10 @@
                 "imageDescription": {
                   "account": "mydockerhub",
                   "fromTrigger": true,
-                  "imageId": "junaidali/sample-app:build-*",
+                  "imageId": "junaidali/sample-app:build.*",
                   "registry": "index.docker.io",
                   "repository": "junaidali/sample-app",
-                  "tag": "build-*"
+                  "tag": "build.*"
                 },
                 "imagePullPolicy": "ALWAYS",
                 "name": "junaidali-sample-app",
@@ -402,7 +401,7 @@
             "loadBalancers": [
               "sample-backend-prod"
             ],
-            "namespace": "ci-cd",
+            "namespace": "prod",
             "nodeSelector": {},
             "podAnnotations": {},
             "provider": "kubernetes",
@@ -454,10 +453,10 @@
                 "imageDescription": {
                   "account": "mydockerhub",
                   "fromTrigger": true,
-                  "imageId": "junaidali/sample-app:build-*",
+                  "imageId": "junaidali/sample-app:build.*",
                   "registry": "index.docker.io",
                   "repository": "junaidali/sample-app",
-                  "tag": "build-*"
+                  "tag": "build.*"
                 },
                 "imagePullPolicy": "ALWAYS",
                 "name": "junaidali-sample-app",
@@ -493,7 +492,7 @@
             "loadBalancers": [
               "sample-frontend-prod"
             ],
-            "namespace": "ci-cd",
+            "namespace": "prod",
             "nodeSelector": {},
             "podAnnotations": {},
             "provider": "kubernetes",
