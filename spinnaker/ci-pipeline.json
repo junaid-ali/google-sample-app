@@ -1,0 +1,45 @@
+{
+  "application": "demo",
+  "lastModifiedBy": "anonymous",
+  "name": "CI Pipeline",
+  "stages": [
+    {
+      "continuePipeline": false,
+      "failPipeline": true,
+      "job": "ci-pipeline",
+      "master": "jenkins-external",
+      "name": "Clone - Build - Test",
+      "parameters": {},
+      "refId": "1",
+      "requisiteStageRefIds": [],
+      "type": "jenkins"
+    },
+    {
+      "continuePipeline": false,
+      "job": "image-push-pipeline",
+      "master": "jenkins-external",
+      "name": "Push Image",
+      "overrides": {},
+      "parameters": {},
+      "refId": "2",
+      "requisiteStageRefIds": [
+        "1"
+      ],
+      "templateRenderer": "HELM2",
+      "type": "jenkins"
+    }
+  ],
+  "index": 0,
+  "triggers": [
+    {
+      "branch": "master",
+      "enabled": true,
+      "project": "junaid-ali",
+      "secret": "xxxxxxxxxxxxxxx",
+      "slug": "google-sample-app",
+      "source": "github",
+      "type": "git"
+    }
+  ],
+  "updateTs": "1536694482000"
+}

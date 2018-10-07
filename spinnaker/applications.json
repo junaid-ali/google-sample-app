@@ -1,8 +1,6 @@
-[
-  {
-    "name": "demo",
-    "description": null,
-    "email": "app-demo-clover@opnfv.ons",
-    "cloudProviders": "kubernetes"
-  }
-]
+{
+  "name": "demo",
+  "description": null,
+  "email": "app-demo-clover@opnfv.ons",
+  "cloudProviders": "kubernetes"
+}
